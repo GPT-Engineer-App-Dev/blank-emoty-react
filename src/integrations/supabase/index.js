@@ -17,48 +17,6 @@ const fromSupabase = async (query) => {
     return data;
 };
 
-/* supabase integration types
-
-Reactions // table: reactions
-    id: number
-    post_id: number
-    user_id: string
-    emoji: string
-
-Documents // table: documents
-    id: number
-    student_id: number
-    title: string
-    content: string
-    created_at: string
-
-Posts // table: posts
-    id: number
-    name: string
-    body: string
-    created_at: string
-    author_id: string
-    likes_count: number
-
-Classes // table: classes
-    id: number
-    name: string
-    description: string
-    created_at: string
-
-Students // table: students
-    id: number
-    first_name: string
-    last_name: string
-    email: string
-    created_at: string
-
-ClassStudents // table: class_students
-    class_id: number
-    student_id: number
-
-*/
-
 // Hooks for Reactions
 export const useReactions = () => useQuery({
     queryKey: ['reactions'],
