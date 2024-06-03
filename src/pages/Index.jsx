@@ -1,8 +1,11 @@
 import { Container, Text, VStack, Button } from "@chakra-ui/react";
 import { usePosts, useAddPost } from "../integrations/supabase/index.js";
 import { useState } from "react";
+import { useSupabaseAuth, SupabaseAuthUI } from "../integrations/supabase/auth.jsx";
 
 const Index = () => {
+  const { session, logout } = useSupabaseAuth();
+  const [showLogin, setShowLogin] = useState(false);
   const { data: posts, isLoading, error } = usePosts();
   const addPostMutation = useAddPost();
   const [newPost, setNewPost] = useState({ name: "", body: "" });
@@ -20,6 +23,15 @@ const Index = () => {
       <VStack spacing={4}>
         <Text fontSize="2xl">Welcome to Your React App</Text>
         <Text>This is an empty React application. Start building your features!</Text>
+        {!session ? (
+          showLogin ? (
+            <SupabaseAuthUI />
+          ) : (
+            <Button onClick={() => setShowLogin(true)}>Login</Button>
+          )
+        ) : (
+          <Button onClick={() => { setShowLogin(false); logout(); }}>Logout {session.user.email}</Button>
+        )}
         <VStack spacing={4} width="100%">
           {posts && posts.map(post => (
             <Text key={post.id}>{post.name}: {post.body}</Text>
